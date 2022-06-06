@@ -9,4 +9,4 @@ player_2 = pokemon_list[r.randint(0,len(pokemon_list)-1)]
 # print("Darren is a " + c + ".")
 print("Total score: Darren 1 vs 1 Ji\nRound 3")
 print(f"Darren sents out {player_1.title()} vs " + f"Ling sents out {player_2.title()}.")
-# test git push
+# test git push 2
