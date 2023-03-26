@@ -35,12 +35,16 @@ for row in input_ws.iter_rows(min_row=2, values_only=True):
             price_element = product_tile.find(class_='price')
             if name_element and price_element:
                 name = name_element.text.strip()
-                price = price_element.text.strip()
+                price_str = price_element.text.strip().replace(',', '.').replace('€', '')
+                if price_str:
+                    price = float(price_str)
+                else:
+                    price = None
                 output_ws.append([ean, name, price])
             else:
-                output_ws.append([ean, "No name or price found", ""])
+                output_ws.append([ean, "No name or price found", None])
     else:
-        output_ws.append([ean, "No products found", ""])
+        output_ws.append([ean, "No products found", None])
 
 # Save the output file
 output_wb.save(output_file)

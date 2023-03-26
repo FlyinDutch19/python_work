@@ -4,7 +4,7 @@ import openpyxl
 
 # Set up input and output file paths
 input_file = 'input.xlsx'
-output_file = 'output.xlsx'
+output_file = 'Douglas_output.xlsx'
 
 # Load input file and output file
 input_wb = openpyxl.load_workbook(input_file)
@@ -31,12 +31,6 @@ for row in input_ws.iter_rows(min_row=2, values_only=True):
     soup = BeautifulSoup(response.content, 'html.parser')
 
     # find product brand and name
-
-    # if price_element:
-    #     price = price_element.text.strip()
-    #     print(f"The price of the product with EAN {ean} is {price}")
-    # else:
-    #     print(f"No price found for the product with EAN {ean}")
     product_header = soup.find(class_='product-detail-header__group')
     if product_header:     
         brand_element = product_header.find(class_='brand-logo__text brand-logo__text--dynamic')
@@ -53,7 +47,8 @@ for row in input_ws.iter_rows(min_row=2, values_only=True):
             price_element = product_tile.find(class_='product-price__price')
             if  size_element and price_element:
                 size = size_element.text.strip()
-                price = price_element.text.strip()
+                price_str = price_element.text.strip().replace('€', '').replace('\xa0', '').replace(',', '.')
+                price = float(price_str)
                 output_ws.append([ean, brand, name, size, price])
             else:
                 output_ws.append([ean, "No name or price found", ""])
