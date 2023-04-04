@@ -36,7 +36,10 @@ for row in input_ws.iter_rows(min_row=2, values_only=True):
             if name_element and price_element:
                 name = name_element.text.strip()
                 if price_element is not None:
-                    price = price_element.text.strip().replace(' ', ',')
+                    price_text = price_element.text.strip().replace(' ', ',').replace(',,', ',')
+                    # Remove any non-numeric characters from the price string
+                    price_text = ''.join(c for c in price_text if c.isdigit() or c == ',')
+                    price = float(price_text.replace(',', '.'))
                 else:
                     price = ""
                 output_ws.append([ean, name, price])
